@@ -1,0 +1,387 @@
+First of all, congratulations for successfully launching the Reef Chain mainnet! 🚀
+
+Mainnet is a network of the nodes and there are many people running their own nodes. In fact, maintenance of such a node is not so easy and requires substantial technical knowledge. Apart from the knowledge, it also requires constant monitoring and keeping the nodes up and running. In turn, to have monitoring in place, there must be in place a mechanism for gathering metrics (and alerting). Thankfully, Substrate already provides the Prometheus metrics out of the box.
+
+Grafana is a software commonly used to visualize Prometheus metrics. I would like to propose creating a ready to use Grafana Dashboard which would use all exposed Prometheus metrics.
+
+For a starter, I took the Polkadot one and modified it appropriately for what Reef Node exposes.
+Here is my Reef Node Grafana Dashboard.
+
+Note: it doesn't include the underlying machine resources utilization (CPU, memory, network), because Reef Node doesn't expose them in the Prometheus metrics.
+
+What do you think? Would you change the proposed Grafana Dashboard in any way? Any suggestions?
+
+https://wiki.polkadot.network/docs/maintain-guides-how-to-monitor-your-node
+
+A Substrate-based chain exposes data such as [...], CPU, memory usage of your machine, and more.
+
+Is there anything related to the CPU and memory usage in the Prometheus metrics exposed by Reef Node?
+
+This is what I can see in the dev version of the Reef Node. [Nothing related to the CPU / memory usage.]
+
+~ curl -v http://127.0.0.1:9615/metrics
+*   Trying 127.0.0.1:9615...
+* Connected to 127.0.0.1 (127.0.0.1) port 9615 (#0)
+> GET /metrics HTTP/1.1
+> Host: 127.0.0.1:9615
+> User-Agent: curl/7.78.0
+> Accept: */*
+>
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< content-type: text/plain; version=0.0.4
+< content-length: 25509
+< date: Wed, 18 Aug 2021 02:13:00 GMT
+<
+# HELP substrate_block_height Block height info of the chain
+# TYPE substrate_block_height gauge
+substrate_block_height{status="best"} 0
+substrate_block_height{status="finalized"} 0
+# HELP substrate_block_verification_and_import_time Time taken to verify and import blocks
+# TYPE substrate_block_verification_and_import_time histogram
+substrate_block_verification_and_import_time_bucket{le="0.005"} 0
+substrate_block_verification_and_import_time_bucket{le="0.01"} 0
+substrate_block_verification_and_import_time_bucket{le="0.025"} 0
+substrate_block_verification_and_import_time_bucket{le="0.05"} 0
+substrate_block_verification_and_import_time_bucket{le="0.1"} 0
+substrate_block_verification_and_import_time_bucket{le="0.25"} 0
+substrate_block_verification_and_import_time_bucket{le="0.5"} 0
+substrate_block_verification_and_import_time_bucket{le="1"} 0
+substrate_block_verification_and_import_time_bucket{le="2.5"} 0
+substrate_block_verification_and_import_time_bucket{le="5"} 0
+substrate_block_verification_and_import_time_bucket{le="10"} 0
+substrate_block_verification_and_import_time_bucket{le="+Inf"} 0
+substrate_block_verification_and_import_time_sum 0
+substrate_block_verification_and_import_time_count 0
+# HELP substrate_build_info A metric with a constant '1' value labeled by name, version
+# TYPE substrate_build_info gauge
+substrate_build_info{name="telling-street-8561",version="3.0.0-bf436c1-x86_64-linux-gnu"} 1
+# HELP substrate_database_cache_bytes RocksDB cache size in bytes
+# TYPE substrate_database_cache_bytes gauge
+substrate_database_cache_bytes 0
+# HELP substrate_import_queue_blocks_submitted Number of blocks submitted to the import queue.
+# TYPE substrate_import_queue_blocks_submitted counter
+substrate_import_queue_blocks_submitted 0
+# HELP substrate_import_queue_justifications_submitted Number of justifications submitted to the import queue.
+# TYPE substrate_import_queue_justifications_submitted counter
+substrate_import_queue_justifications_submitted 0
+# HELP substrate_issued_light_requests Number of light client requests that our node has issued.
+# TYPE substrate_issued_light_requests counter
+substrate_issued_light_requests 0
+# HELP substrate_justification_import_time Time taken to import justifications
+# TYPE substrate_justification_import_time histogram
+substrate_justification_import_time_bucket{le="0.005"} 0
+substrate_justification_import_time_bucket{le="0.01"} 0
+substrate_justification_import_time_bucket{le="0.025"} 0
+substrate_justification_import_time_bucket{le="0.05"} 0
+substrate_justification_import_time_bucket{le="0.1"} 0
+substrate_justification_import_time_bucket{le="0.25"} 0
+substrate_justification_import_time_bucket{le="0.5"} 0
+substrate_justification_import_time_bucket{le="1"} 0
+substrate_justification_import_time_bucket{le="2.5"} 0
+substrate_justification_import_time_bucket{le="5"} 0
+substrate_justification_import_time_bucket{le="10"} 0
+substrate_justification_import_time_bucket{le="+Inf"} 0
+substrate_justification_import_time_sum 0
+substrate_justification_import_time_count 0
+# HELP substrate_node_roles The roles the node is running as
+# TYPE substrate_node_roles gauge
+substrate_node_roles 4
+# HELP substrate_number_leaves Number of known chain leaves (aka forks)
+# TYPE substrate_number_leaves gauge
+substrate_number_leaves 1
+# HELP substrate_process_start_time_seconds Number of seconds between the UNIX epoch and the moment the process started
+# TYPE substrate_process_start_time_seconds gauge
+substrate_process_start_time_seconds 1629252780
+# HELP substrate_proposer_block_constructed Histogram of time taken to construct new block
+# TYPE substrate_proposer_block_constructed histogram
+substrate_proposer_block_constructed_bucket{le="0.005"} 0
+substrate_proposer_block_constructed_bucket{le="0.01"} 0
+substrate_proposer_block_constructed_bucket{le="0.025"} 0
+substrate_proposer_block_constructed_bucket{le="0.05"} 0
+substrate_proposer_block_constructed_bucket{le="0.1"} 0
+substrate_proposer_block_constructed_bucket{le="0.25"} 0
+substrate_proposer_block_constructed_bucket{le="0.5"} 0
+substrate_proposer_block_constructed_bucket{le="1"} 0
+substrate_proposer_block_constructed_bucket{le="2.5"} 0
+substrate_proposer_block_constructed_bucket{le="5"} 0
+substrate_proposer_block_constructed_bucket{le="10"} 0
+substrate_proposer_block_constructed_bucket{le="+Inf"} 0
+substrate_proposer_block_constructed_sum 0
+substrate_proposer_block_constructed_count 0
+# HELP substrate_proposer_number_of_transactions Number of transactions included in block
+# TYPE substrate_proposer_number_of_transactions gauge
+substrate_proposer_number_of_transactions 0
+# HELP substrate_ready_transactions_number Number of transactions in the ready queue
+# TYPE substrate_ready_transactions_number gauge
+substrate_ready_transactions_number 0
+# HELP substrate_state_cache_bytes State cache size in bytes
+# TYPE substrate_state_cache_bytes gauge
+substrate_state_cache_bytes 2032293
+# HELP substrate_state_db_cache_bytes State DB cache in bytes
+# TYPE substrate_state_db_cache_bytes gauge
+substrate_state_db_cache_bytes{subtype="non_canonical"} 168
+substrate_state_db_cache_bytes{subtype="pinned"} 132
+# HELP substrate_sub_libp2p_distinct_peers_connections_closed_total Total number of connections closed with distinct peers
+# TYPE substrate_sub_libp2p_distinct_peers_connections_closed_total counter
+substrate_sub_libp2p_distinct_peers_connections_closed_total 0
+# HELP substrate_sub_libp2p_distinct_peers_connections_opened_total Total number of connections opened with distinct peers
+# TYPE substrate_sub_libp2p_distinct_peers_connections_opened_total counter
+substrate_sub_libp2p_distinct_peers_connections_opened_total 0
+# HELP substrate_sub_libp2p_incoming_connections_total Total number of incoming connections on the listening sockets
+# TYPE substrate_sub_libp2p_incoming_connections_total counter
+substrate_sub_libp2p_incoming_connections_total 0
+# HELP substrate_sub_libp2p_is_major_syncing Whether the node is performing a major sync or not.
+# TYPE substrate_sub_libp2p_is_major_syncing gauge
+substrate_sub_libp2p_is_major_syncing 0
+# HELP substrate_sub_libp2p_listeners_errors_total Total number of non-fatal errors reported by a listener
+# TYPE substrate_sub_libp2p_listeners_errors_total counter
+substrate_sub_libp2p_listeners_errors_total 0
+# HELP substrate_sub_libp2p_listeners_local_addresses Number of local addresses we're listening on
+# TYPE substrate_sub_libp2p_listeners_local_addresses gauge
+substrate_sub_libp2p_listeners_local_addresses 0
+# HELP substrate_sub_libp2p_network_bytes_total Total bandwidth usage
+# TYPE substrate_sub_libp2p_network_bytes_total counter
+substrate_sub_libp2p_network_bytes_total{direction="in"} 0
+substrate_sub_libp2p_network_bytes_total{direction="out"} 0
+# HELP substrate_sub_libp2p_peers_count Number of connected peers
+# TYPE substrate_sub_libp2p_peers_count gauge
+substrate_sub_libp2p_peers_count 0
+# HELP substrate_sub_libp2p_peerset_num_discovered Number of nodes stored in the peerset manager
+# TYPE substrate_sub_libp2p_peerset_num_discovered gauge
+substrate_sub_libp2p_peerset_num_discovered 0
+# HELP substrate_sub_libp2p_peerset_num_requested Number of nodes that the peerset manager wants us to be connected to
+# TYPE substrate_sub_libp2p_peerset_num_requested gauge
+substrate_sub_libp2p_peerset_num_requested 0
+# HELP substrate_sub_libp2p_pending_connections Number of connections in the process of being established
+# TYPE substrate_sub_libp2p_pending_connections gauge
+substrate_sub_libp2p_pending_connections 0
+# HELP substrate_sub_txpool_block_transactions_pruned Total number of transactions that was requested to be pruned by block events
+# TYPE substrate_sub_txpool_block_transactions_pruned counter
+substrate_sub_txpool_block_transactions_pruned 0
+# HELP substrate_sub_txpool_block_transactions_resubmitted Total number of transactions that was requested to be resubmitted by block events
+# TYPE substrate_sub_txpool_block_transactions_resubmitted counter
+substrate_sub_txpool_block_transactions_resubmitted 0
+# HELP substrate_sub_txpool_submitted_transactions Total number of transactions submitted
+# TYPE substrate_sub_txpool_submitted_transactions counter
+substrate_sub_txpool_submitted_transactions 0
+# HELP substrate_sub_txpool_validations_finished Total number of transactions that finished validation
+# TYPE substrate_sub_txpool_validations_finished counter
+substrate_sub_txpool_validations_finished 0
+# HELP substrate_sub_txpool_validations_invalid Total number of transactions that were removed from the pool as invalid
+# TYPE substrate_sub_txpool_validations_invalid counter
+substrate_sub_txpool_validations_invalid 0
+# HELP substrate_sub_txpool_validations_scheduled Total number of transactions scheduled for validation
+# TYPE substrate_sub_txpool_validations_scheduled counter
+substrate_sub_txpool_validations_scheduled 0
+# HELP substrate_sync_fork_targets Number of fork sync targets
+# TYPE substrate_sync_fork_targets gauge
+substrate_sync_fork_targets 0
+# HELP substrate_sync_peers Number of peers we sync with
+# TYPE substrate_sync_peers gauge
+substrate_sync_peers 0
+# HELP substrate_sync_propagated_transactions Number of transactions propagated to at least one peer
+# TYPE substrate_sync_propagated_transactions counter
+substrate_sync_propagated_transactions 0
+# HELP substrate_sync_queued_blocks Number of blocks in import queue
+# TYPE substrate_sync_queued_blocks gauge
+substrate_sync_queued_blocks 0
+# HELP substrate_tasks_ended_total Total number of tasks for which Future::poll has returned Ready(()) or panicked
+# TYPE substrate_tasks_ended_total counter
+substrate_tasks_ended_total{reason="finished",task_name="babe"} 0
+substrate_tasks_ended_total{reason="finished",task_name="basic-block-import-worker"} 0
+substrate_tasks_ended_total{reason="finished",task_name="block_request_handler"} 0
+substrate_tasks_ended_total{reason="finished",task_name="informant"} 0
+substrate_tasks_ended_total{reason="finished",task_name="light_client_request_handler"} 0
+substrate_tasks_ended_total{reason="finished",task_name="network-worker"} 0
+substrate_tasks_ended_total{reason="finished",task_name="offchain-notifications"} 0
+substrate_tasks_ended_total{reason="finished",task_name="on-transaction-imported"} 0
+substrate_tasks_ended_total{reason="finished",task_name="prometheus-endpoint"} 0
+substrate_tasks_ended_total{reason="finished",task_name="telemetry-periodic-send"} 0
+substrate_tasks_ended_total{reason="finished",task_name="txpool-background"} 0
+substrate_tasks_ended_total{reason="finished",task_name="txpool-notifications"} 0
+# HELP substrate_tasks_polling_duration Duration in seconds of each invocation of Future::poll
+# TYPE substrate_tasks_polling_duration histogram
+substrate_tasks_polling_duration_bucket{task_name="babe",le="0.001"} 1
+substrate_tasks_polling_duration_bucket{task_name="babe",le="0.004"} 1
+substrate_tasks_polling_duration_bucket{task_name="babe",le="0.016"} 1
+substrate_tasks_polling_duration_bucket{task_name="babe",le="0.064"} 1
+substrate_tasks_polling_duration_bucket{task_name="babe",le="0.256"} 1
+substrate_tasks_polling_duration_bucket{task_name="babe",le="1.024"} 1
+substrate_tasks_polling_duration_bucket{task_name="babe",le="4.096"} 1
+substrate_tasks_polling_duration_bucket{task_name="babe",le="16.384"} 1
+substrate_tasks_polling_duration_bucket{task_name="babe",le="65.536"} 1
+substrate_tasks_polling_duration_bucket{task_name="babe",le="+Inf"} 1
+substrate_tasks_polling_duration_sum{task_name="babe"} 0.000042936
+substrate_tasks_polling_duration_count{task_name="babe"} 1
+substrate_tasks_polling_duration_bucket{task_name="basic-block-import-worker",le="0.001"} 1
+substrate_tasks_polling_duration_bucket{task_name="basic-block-import-worker",le="0.004"} 1
+substrate_tasks_polling_duration_bucket{task_name="basic-block-import-worker",le="0.016"} 1
+substrate_tasks_polling_duration_bucket{task_name="basic-block-import-worker",le="0.064"} 1
+substrate_tasks_polling_duration_bucket{task_name="basic-block-import-worker",le="0.256"} 1
+substrate_tasks_polling_duration_bucket{task_name="basic-block-import-worker",le="1.024"} 1
+substrate_tasks_polling_duration_bucket{task_name="basic-block-import-worker",le="4.096"} 1
+substrate_tasks_polling_duration_bucket{task_name="basic-block-import-worker",le="16.384"} 1
+substrate_tasks_polling_duration_bucket{task_name="basic-block-import-worker",le="65.536"} 1
+substrate_tasks_polling_duration_bucket{task_name="basic-block-import-worker",le="+Inf"} 1
+substrate_tasks_polling_duration_sum{task_name="basic-block-import-worker"} 0.000018106
+substrate_tasks_polling_duration_count{task_name="basic-block-import-worker"} 1
+substrate_tasks_polling_duration_bucket{task_name="block_request_handler",le="0.001"} 1
+substrate_tasks_polling_duration_bucket{task_name="block_request_handler",le="0.004"} 1
+substrate_tasks_polling_duration_bucket{task_name="block_request_handler",le="0.016"} 1
+substrate_tasks_polling_duration_bucket{task_name="block_request_handler",le="0.064"} 1
+substrate_tasks_polling_duration_bucket{task_name="block_request_handler",le="0.256"} 1
+substrate_tasks_polling_duration_bucket{task_name="block_request_handler",le="1.024"} 1
+substrate_tasks_polling_duration_bucket{task_name="block_request_handler",le="4.096"} 1
+substrate_tasks_polling_duration_bucket{task_name="block_request_handler",le="16.384"} 1
+substrate_tasks_polling_duration_bucket{task_name="block_request_handler",le="65.536"} 1
+substrate_tasks_polling_duration_bucket{task_name="block_request_handler",le="+Inf"} 1
+substrate_tasks_polling_duration_sum{task_name="block_request_handler"} 0.000009845
+substrate_tasks_polling_duration_count{task_name="block_request_handler"} 1
+substrate_tasks_polling_duration_bucket{task_name="informant",le="0.001"} 1
+substrate_tasks_polling_duration_bucket{task_name="informant",le="0.004"} 1
+substrate_tasks_polling_duration_bucket{task_name="informant",le="0.016"} 1
+substrate_tasks_polling_duration_bucket{task_name="informant",le="0.064"} 1
+substrate_tasks_polling_duration_bucket{task_name="informant",le="0.256"} 1
+substrate_tasks_polling_duration_bucket{task_name="informant",le="1.024"} 1
+substrate_tasks_polling_duration_bucket{task_name="informant",le="4.096"} 1
+substrate_tasks_polling_duration_bucket{task_name="informant",le="16.384"} 1
+substrate_tasks_polling_duration_bucket{task_name="informant",le="65.536"} 1
+substrate_tasks_polling_duration_bucket{task_name="informant",le="+Inf"} 1
+substrate_tasks_polling_duration_sum{task_name="informant"} 0.000010167
+substrate_tasks_polling_duration_count{task_name="informant"} 1
+substrate_tasks_polling_duration_bucket{task_name="light_client_request_handler",le="0.001"} 1
+substrate_tasks_polling_duration_bucket{task_name="light_client_request_handler",le="0.004"} 1
+substrate_tasks_polling_duration_bucket{task_name="light_client_request_handler",le="0.016"} 1
+substrate_tasks_polling_duration_bucket{task_name="light_client_request_handler",le="0.064"} 1
+substrate_tasks_polling_duration_bucket{task_name="light_client_request_handler",le="0.256"} 1
+substrate_tasks_polling_duration_bucket{task_name="light_client_request_handler",le="1.024"} 1
+substrate_tasks_polling_duration_bucket{task_name="light_client_request_handler",le="4.096"} 1
+substrate_tasks_polling_duration_bucket{task_name="light_client_request_handler",le="16.384"} 1
+substrate_tasks_polling_duration_bucket{task_name="light_client_request_handler",le="65.536"} 1
+substrate_tasks_polling_duration_bucket{task_name="light_client_request_handler",le="+Inf"} 1
+substrate_tasks_polling_duration_sum{task_name="light_client_request_handler"} 0.000002697
+substrate_tasks_polling_duration_count{task_name="light_client_request_handler"} 1
+substrate_tasks_polling_duration_bucket{task_name="network-worker",le="0.001"} 1
+substrate_tasks_polling_duration_bucket{task_name="network-worker",le="0.004"} 1
+substrate_tasks_polling_duration_bucket{task_name="network-worker",le="0.016"} 1
+substrate_tasks_polling_duration_bucket{task_name="network-worker",le="0.064"} 1
+substrate_tasks_polling_duration_bucket{task_name="network-worker",le="0.256"} 1
+substrate_tasks_polling_duration_bucket{task_name="network-worker",le="1.024"} 1
+substrate_tasks_polling_duration_bucket{task_name="network-worker",le="4.096"} 1
+substrate_tasks_polling_duration_bucket{task_name="network-worker",le="16.384"} 1
+substrate_tasks_polling_duration_bucket{task_name="network-worker",le="65.536"} 1
+substrate_tasks_polling_duration_bucket{task_name="network-worker",le="+Inf"} 1
+substrate_tasks_polling_duration_sum{task_name="network-worker"} 0.000003722
+substrate_tasks_polling_duration_count{task_name="network-worker"} 1
+substrate_tasks_polling_duration_bucket{task_name="offchain-notifications",le="0.001"} 1
+substrate_tasks_polling_duration_bucket{task_name="offchain-notifications",le="0.004"} 1
+substrate_tasks_polling_duration_bucket{task_name="offchain-notifications",le="0.016"} 1
+substrate_tasks_polling_duration_bucket{task_name="offchain-notifications",le="0.064"} 1
+substrate_tasks_polling_duration_bucket{task_name="offchain-notifications",le="0.256"} 1
+substrate_tasks_polling_duration_bucket{task_name="offchain-notifications",le="1.024"} 1
+substrate_tasks_polling_duration_bucket{task_name="offchain-notifications",le="4.096"} 1
+substrate_tasks_polling_duration_bucket{task_name="offchain-notifications",le="16.384"} 1
+substrate_tasks_polling_duration_bucket{task_name="offchain-notifications",le="65.536"} 1
+substrate_tasks_polling_duration_bucket{task_name="offchain-notifications",le="+Inf"} 1
+substrate_tasks_polling_duration_sum{task_name="offchain-notifications"} 0.000017576
+substrate_tasks_polling_duration_count{task_name="offchain-notifications"} 1
+substrate_tasks_polling_duration_bucket{task_name="on-transaction-imported",le="0.001"} 1
+substrate_tasks_polling_duration_bucket{task_name="on-transaction-imported",le="0.004"} 1
+substrate_tasks_polling_duration_bucket{task_name="on-transaction-imported",le="0.016"} 1
+substrate_tasks_polling_duration_bucket{task_name="on-transaction-imported",le="0.064"} 1
+substrate_tasks_polling_duration_bucket{task_name="on-transaction-imported",le="0.256"} 1
+substrate_tasks_polling_duration_bucket{task_name="on-transaction-imported",le="1.024"} 1
+substrate_tasks_polling_duration_bucket{task_name="on-transaction-imported",le="4.096"} 1
+substrate_tasks_polling_duration_bucket{task_name="on-transaction-imported",le="16.384"} 1
+substrate_tasks_polling_duration_bucket{task_name="on-transaction-imported",le="65.536"} 1
+substrate_tasks_polling_duration_bucket{task_name="on-transaction-imported",le="+Inf"} 1
+substrate_tasks_polling_duration_sum{task_name="on-transaction-imported"} 0.000035964
+substrate_tasks_polling_duration_count{task_name="on-transaction-imported"} 1
+substrate_tasks_polling_duration_bucket{task_name="prometheus-endpoint",le="0.001"} 2
+substrate_tasks_polling_duration_bucket{task_name="prometheus-endpoint",le="0.004"} 2
+substrate_tasks_polling_duration_bucket{task_name="prometheus-endpoint",le="0.016"} 2
+substrate_tasks_polling_duration_bucket{task_name="prometheus-endpoint",le="0.064"} 2
+substrate_tasks_polling_duration_bucket{task_name="prometheus-endpoint",le="0.256"} 2
+substrate_tasks_polling_duration_bucket{task_name="prometheus-endpoint",le="1.024"} 2
+substrate_tasks_polling_duration_bucket{task_name="prometheus-endpoint",le="4.096"} 2
+substrate_tasks_polling_duration_bucket{task_name="prometheus-endpoint",le="16.384"} 2
+substrate_tasks_polling_duration_bucket{task_name="prometheus-endpoint",le="65.536"} 2
+substrate_tasks_polling_duration_bucket{task_name="prometheus-endpoint",le="+Inf"} 2
+substrate_tasks_polling_duration_sum{task_name="prometheus-endpoint"} 0.0009058529999999999
+substrate_tasks_polling_duration_count{task_name="prometheus-endpoint"} 2
+substrate_tasks_polling_duration_bucket{task_name="telemetry-periodic-send",le="0.001"} 1
+substrate_tasks_polling_duration_bucket{task_name="telemetry-periodic-send",le="0.004"} 1
+substrate_tasks_polling_duration_bucket{task_name="telemetry-periodic-send",le="0.016"} 1
+substrate_tasks_polling_duration_bucket{task_name="telemetry-periodic-send",le="0.064"} 1
+substrate_tasks_polling_duration_bucket{task_name="telemetry-periodic-send",le="0.256"} 1
+substrate_tasks_polling_duration_bucket{task_name="telemetry-periodic-send",le="1.024"} 1
+substrate_tasks_polling_duration_bucket{task_name="telemetry-periodic-send",le="4.096"} 1
+substrate_tasks_polling_duration_bucket{task_name="telemetry-periodic-send",le="16.384"} 1
+substrate_tasks_polling_duration_bucket{task_name="telemetry-periodic-send",le="65.536"} 1
+substrate_tasks_polling_duration_bucket{task_name="telemetry-periodic-send",le="+Inf"} 1
+substrate_tasks_polling_duration_sum{task_name="telemetry-periodic-send"} 0.000629104
+substrate_tasks_polling_duration_count{task_name="telemetry-periodic-send"} 1
+substrate_tasks_polling_duration_bucket{task_name="txpool-background",le="0.001"} 12
+substrate_tasks_polling_duration_bucket{task_name="txpool-background",le="0.004"} 12
+substrate_tasks_polling_duration_bucket{task_name="txpool-background",le="0.016"} 12
+substrate_tasks_polling_duration_bucket{task_name="txpool-background",le="0.064"} 12
+substrate_tasks_polling_duration_bucket{task_name="txpool-background",le="0.256"} 12
+substrate_tasks_polling_duration_bucket{task_name="txpool-background",le="1.024"} 12
+substrate_tasks_polling_duration_bucket{task_name="txpool-background",le="4.096"} 12
+substrate_tasks_polling_duration_bucket{task_name="txpool-background",le="16.384"} 12
+substrate_tasks_polling_duration_bucket{task_name="txpool-background",le="65.536"} 12
+substrate_tasks_polling_duration_bucket{task_name="txpool-background",le="+Inf"} 12
+substrate_tasks_polling_duration_sum{task_name="txpool-background"} 0.0012676170000000002
+substrate_tasks_polling_duration_count{task_name="txpool-background"} 12
+substrate_tasks_polling_duration_bucket{task_name="txpool-notifications",le="0.001"} 1
+substrate_tasks_polling_duration_bucket{task_name="txpool-notifications",le="0.004"} 1
+substrate_tasks_polling_duration_bucket{task_name="txpool-notifications",le="0.016"} 1
+substrate_tasks_polling_duration_bucket{task_name="txpool-notifications",le="0.064"} 1
+substrate_tasks_polling_duration_bucket{task_name="txpool-notifications",le="0.256"} 1
+substrate_tasks_polling_duration_bucket{task_name="txpool-notifications",le="1.024"} 1
+substrate_tasks_polling_duration_bucket{task_name="txpool-notifications",le="4.096"} 1
+substrate_tasks_polling_duration_bucket{task_name="txpool-notifications",le="16.384"} 1
+substrate_tasks_polling_duration_bucket{task_name="txpool-notifications",le="65.536"} 1
+substrate_tasks_polling_duration_bucket{task_name="txpool-notifications",le="+Inf"} 1
+substrate_tasks_polling_duration_sum{task_name="txpool-notifications"} 0.000049409
+substrate_tasks_polling_duration_count{task_name="txpool-notifications"} 1
+# HELP substrate_tasks_polling_started_total Total number of times we started invoking Future::poll
+# TYPE substrate_tasks_polling_started_total counter
+substrate_tasks_polling_started_total{task_name="babe"} 1
+substrate_tasks_polling_started_total{task_name="basic-block-import-worker"} 1
+substrate_tasks_polling_started_total{task_name="block_request_handler"} 1
+substrate_tasks_polling_started_total{task_name="informant"} 1
+substrate_tasks_polling_started_total{task_name="light_client_request_handler"} 1
+substrate_tasks_polling_started_total{task_name="network-worker"} 1
+substrate_tasks_polling_started_total{task_name="offchain-notifications"} 1
+substrate_tasks_polling_started_total{task_name="on-transaction-imported"} 1
+substrate_tasks_polling_started_total{task_name="prometheus-endpoint"} 2
+substrate_tasks_polling_started_total{task_name="telemetry-periodic-send"} 1
+substrate_tasks_polling_started_total{task_name="txpool-background"} 12
+substrate_tasks_polling_started_total{task_name="txpool-notifications"} 1
+# HELP substrate_tasks_spawned_total Total number of tasks that have been spawned on the Service
+# TYPE substrate_tasks_spawned_total counter
+substrate_tasks_spawned_total{task_name="babe"} 1
+substrate_tasks_spawned_total{task_name="basic-block-import-worker"} 1
+substrate_tasks_spawned_total{task_name="block_request_handler"} 1
+substrate_tasks_spawned_total{task_name="informant"} 1
+substrate_tasks_spawned_total{task_name="light_client_request_handler"} 1
+substrate_tasks_spawned_total{task_name="network-worker"} 1
+substrate_tasks_spawned_total{task_name="offchain-notifications"} 1
+substrate_tasks_spawned_total{task_name="on-transaction-imported"} 1
+substrate_tasks_spawned_total{task_name="prometheus-endpoint"} 1
+substrate_tasks_spawned_total{task_name="telemetry-periodic-send"} 1
+substrate_tasks_spawned_total{task_name="txpool-background"} 1
+substrate_tasks_spawned_total{task_name="txpool-notifications"} 1
+# HELP substrate_tokio_threads_alive Number of threads alive right now
+# TYPE substrate_tokio_threads_alive gauge
+substrate_tokio_threads_alive 11
+# HELP substrate_tokio_threads_total Total number of threads created
+# TYPE substrate_tokio_threads_total counter
+substrate_tokio_threads_total 11
+# HELP substrate_unbounded_channel_len Items in each mpsc::unbounded instance
+# TYPE substrate_unbounded_channel_len counter
+substrate_unbounded_channel_len{action="received",entity="mpsc_background_tasks"} 12
+substrate_unbounded_channel_len{action="send",entity="mpsc_network_worker"} 1
+substrate_unbounded_channel_len{action="send",entity="status-sinks-entries"} 3
